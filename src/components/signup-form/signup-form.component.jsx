@@ -3,9 +3,10 @@ import {
   createUser,
   createUserProfileDocument,
 } from "../../utils/firebase/firebase.utils";
+import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
 import "./signup-form.styles.scss";
-import Button from "../button/button.component";
+import { FirebaseError } from "firebase/app";
 
 const defaultFormFields = {
   displayName: "",
@@ -16,6 +17,7 @@ const defaultFormFields = {
 
 const SignupForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
+
   const { displayName, email, password, confirmPassword } = formFields;
 
   const handleResetForm = () => {
@@ -32,12 +34,17 @@ const SignupForm = () => {
       const { user } = await createUser(email, password);
 
       await createUserProfileDocument(user, { displayName });
+
       handleResetForm();
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         alert("email already in use");
       } else {
-        console.log("🚀 ~ handleSubmit ~ error:", error);
+        if (error instanceof FirebaseError) {
+          alert("Error - " + error.message);
+        } else {
+          alert("Error - something went wrong");
+        }
       }
     }
   };

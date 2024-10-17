@@ -7,6 +7,8 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signInWithRedirect,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -82,3 +84,7 @@ export const signIn = async (email, password) => {
 
   return resp;
 };
+
+export const signOutUser = async () => await signOut(auth);
+
+export const onAuthStateChangedListener = (cb) => onAuthStateChanged(auth, cb);
