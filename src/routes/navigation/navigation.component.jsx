@@ -16,10 +16,15 @@ import {
   NavLink,
   NavLinks,
 } from "./navigation.styles.jsx";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../redux/store/user/user.selector.js";
 
 const Navigation = () => {
-  const { currentUser } = useContext(UserContext);
+  // const { currentUser } = useContext(UserContext);
   const { isCartOpen } = useContext(CartContext);
+
+  const currentUser = useSelector(selectCurrentUser);
+  console.log("🚀 ~ Navigation ~ currentUser:", currentUser);
 
   return (
     <Fragment>
